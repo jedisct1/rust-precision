@@ -1,10 +1,6 @@
 use super::config::*;
 use super::cpucounter::*;
 use super::timestamp::*;
-use libc::{self, c_long, size_t};
-use std::ffi::CString;
-use std::mem;
-use std::ptr;
 use std::thread;
 use std::time::Duration;
 
@@ -55,6 +51,11 @@ impl Precision {
         target_os = "openbsd"
     ))]
     fn guess_frequency_using_sysctl(name: &str) -> Result<u64, &'static str> {
+        use libc::{self, c_long, size_t};
+        use std::ffi::CString;
+        use std::mem;
+        use std::ptr;
+
         let sysctl_name = CString::new(name).map_err(|_| "invalid sysctl name")?;
         let mut result: c_long = 0;
         let mut result_len: size_t = mem::size_of::<c_long>() as _;
