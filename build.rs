@@ -3,7 +3,7 @@ extern crate gcc;
 fn main() {
     gcc::Build::new()
         .file("src/cpucounter.c")
-        .flag("-fomit-frame-pointer")
-        .opt_level(2)
+        .flag_if_supported("-fomit-frame-pointer")
+        .opt_level(3)
         .compile("cpucounter");
 }
