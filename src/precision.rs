@@ -24,12 +24,6 @@ impl Precision {
             .or_else(|_| Self::guess_frequency_with_wall_clock(config.setup_duration))
     }
 
-    #[cfg(target_os = "openbsd")]
-    fn guess_frequency(config: &Config) -> Result<u64, &'static str> {
-        Self::guess_frequency_using_sysctl("machdep.tscfreq")
-            .or_else(|_| Self::guess_frequency_with_wall_clock(config.setup_duration))
-    }
-
     #[cfg(target_os = "freebsd")]
     fn guess_frequency(config: &Config) -> Result<u64, &'static str> {
         Self::guess_frequency_using_sysctl("machdep.tsc_freq")
@@ -38,7 +32,6 @@ impl Precision {
 
     #[cfg(not(any(
         target_os = "macos",
-        target_os = "openbsd",
         target_os = "freebsd"
     )))]
     fn guess_frequency(config: &Config) -> Result<u64, &'static str> {
@@ -48,7 +41,6 @@ impl Precision {
     #[cfg(any(
         target_os = "macos",
         target_os = "freebsd",
-        target_os = "openbsd"
     ))]
     fn guess_frequency_using_sysctl(name: &str) -> Result<u64, &'static str> {
         use libc::{self, c_long, size_t};
