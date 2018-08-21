@@ -23,5 +23,6 @@ fn test_simple() {
     let start = p.now();
     let stop = p.now();
     let elapsed = stop - start;
-    assert_eq!(elapsed.as_secs(&p), 0)
+    assert_eq!(elapsed.as_secs(&p), 0);
+    assert!(elapsed.ticks() > 0);
 }
