@@ -2,9 +2,19 @@
 name = "precision"
 version = "0.1.0"
 authors = ["Frank Denis <github@pureftpd.org>"]
+categories = ["development-tools.categories.profiling", "development-tools"]
+license = "ISC"
+homepage = "https://github.com/jedisct1/rust-precision"
+repository = "https://github.com/jedisct1/rust-precision"
+description = "Low overhead, high precision measurement crate"
 
 [dependencies]
 libc = "0.2"
 
 [build-dependencies]
 gcc = "0.3"
+
+[profile.release]
+lto = true
+panic = "abort"
+opt-level = 3
