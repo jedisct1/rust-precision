@@ -1,3 +1,5 @@
+#![cfg_attr(asm, feature(asm))]
+
 extern crate libc;
 
 mod config;

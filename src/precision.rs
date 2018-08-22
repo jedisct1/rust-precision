@@ -31,18 +31,12 @@ impl Precision {
             .or_else(|_| Self::guess_frequency_with_wall_clock(config.setup_duration))
     }
 
-    #[cfg(not(any(
-        target_os = "macos",
-        target_os = "freebsd"
-    )))]
+    #[cfg(not(any(target_os = "macos", target_os = "freebsd")))]
     fn guess_frequency(config: &Config) -> Result<u64, &'static str> {
         Self::guess_frequency_with_wall_clock(config.setup_duration)
     }
 
-    #[cfg(any(
-        target_os = "macos",
-        target_os = "freebsd",
-    ))]
+    #[cfg(any(target_os = "macos", target_os = "freebsd"))]
     fn guess_frequency_using_sysctl(name: &str) -> Result<u64, &'static str> {
         use libc::{self, c_long, size_t};
         use std::ffi::CString;
