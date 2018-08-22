@@ -1,10 +1,10 @@
 use super::precision::*;
 use std::ops::*;
 
-#[derive(Clone)]
+#[derive(Clone, Eq, PartialEq)]
 pub struct Timestamp(pub(crate) u64);
 
-#[derive(Clone)]
+#[derive(Clone, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Elapsed(u64);
 
 impl Sub for Timestamp {
@@ -17,6 +17,15 @@ impl Sub for Timestamp {
         } else {
             Elapsed(self.0 + (!ts.0) + 1)
         }
+    }
+}
+
+impl Add for Elapsed {
+    type Output = Elapsed;
+
+    #[inline]
+    fn add(self, other: Elapsed) -> Self::Output {
+        Elapsed(self.0 + other.0)
     }
 }
 

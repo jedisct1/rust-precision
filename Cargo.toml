@@ -1,6 +1,6 @@
 [package]
 name = "precision"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Frank Denis <github@pureftpd.org>"]
 categories = ["development-tools.categories.profiling", "development-tools"]
 license = "ISC"
