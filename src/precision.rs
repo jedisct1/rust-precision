@@ -4,6 +4,7 @@ use super::timestamp::*;
 use std::thread;
 use std::time::Duration;
 
+#[derive(Clone)]
 pub struct Precision {
     pub(crate) frequency: u64,
 }
