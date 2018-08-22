@@ -9,6 +9,7 @@ mod timestamp;
 
 pub use self::config::*;
 pub use self::precision::*;
+pub use self::timestamp::*;
 
 #[test]
 fn test_simple() {
