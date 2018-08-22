@@ -15,6 +15,7 @@ impl Precision {
         Ok(Precision { frequency })
     }
 
+    #[inline]
     pub fn now(&self) -> Timestamp {
         CPUCounter::current()
     }
