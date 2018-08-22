@@ -1,10 +1,10 @@
 use super::precision::*;
 use std::ops::*;
 
-#[derive(Clone, Eq, PartialEq)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct Timestamp(pub(crate) u64);
 
-#[derive(Clone, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Copy, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Elapsed(u64);
 
 impl Sub for Timestamp {
@@ -36,6 +36,22 @@ impl AddAssign for Elapsed {
     }
 }
 
+impl Div for Elapsed {
+    type Output = Elapsed;
+
+    #[inline]
+    fn div(self, other: Elapsed) -> Self::Output {
+        Elapsed(self.0 / other.0)
+    }
+}
+
+impl DivAssign for Elapsed {
+    #[inline]
+    fn div_assign(&mut self, other: Elapsed) {
+        self.0 /= other.0;
+    }
+}
+
 impl Elapsed {
     #[inline]
     pub fn new() -> Self {
@@ -60,5 +76,10 @@ impl Elapsed {
     #[inline]
     pub fn as_millis(&self, precision: &Precision) -> u64 {
         self.0 * 1_000 / precision.frequency
+    }
+
+    #[inline]
+    pub fn as_ns(&self, precision: &Precision) -> u64 {
+        (((self.0 as f64 * 1_000.0) / precision.frequency as f64) * 1_000_000.0) as u64
     }
 }
