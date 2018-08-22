@@ -36,22 +36,6 @@ impl AddAssign for Elapsed {
     }
 }
 
-impl Div for Elapsed {
-    type Output = Elapsed;
-
-    #[inline]
-    fn div(self, other: Elapsed) -> Self::Output {
-        Elapsed(self.0 / other.0)
-    }
-}
-
-impl DivAssign for Elapsed {
-    #[inline]
-    fn div_assign(&mut self, other: Elapsed) {
-        self.0 /= other.0;
-    }
-}
-
 impl Elapsed {
     #[inline]
     pub fn new() -> Self {
