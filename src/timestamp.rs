@@ -43,6 +43,11 @@ impl Elapsed {
     }
 
     #[inline]
+    pub fn from_ticks(ticks: u64) -> Self {
+        Elapsed(ticks)
+    }
+
+    #[inline]
     pub fn ticks(&self) -> u64 {
         self.0
     }
