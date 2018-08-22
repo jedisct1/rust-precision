@@ -31,6 +31,11 @@ impl Add for Elapsed {
 
 impl Elapsed {
     #[inline]
+    pub fn new() -> Self {
+        Elapsed(0)
+    }
+
+    #[inline]
     pub fn ticks(&self) -> u64 {
         self.0
     }
