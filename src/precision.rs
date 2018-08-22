@@ -10,11 +10,15 @@ pub struct Precision {
 }
 
 impl Precision {
+    /// Initialize the crate. Note that on Linux system, this will
+    /// perform calibration before returning. You may want to do this
+    /// only twice. The `Precision` value can then be cloned if needed.
     pub fn new(config: Config) -> Result<Self, &'static str> {
         let frequency = Precision::guess_frequency(&config)?;
         Ok(Precision { frequency })
     }
 
+    /// Returns the current timestamp
     #[inline]
     pub fn now(&self) -> Timestamp {
         CPUCounter::current()

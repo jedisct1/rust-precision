@@ -14,6 +14,8 @@ impl Default for Config {
 }
 
 impl Config {
+    /// Sets the duration of the calibration, required to estimate the frequency
+    /// of the hardware counter on Linux. Default is 5 seconds.
     pub fn setup_duration(mut self, setup_duration: Duration) -> Self {
         self.setup_duration = setup_duration;
         self

@@ -22,6 +22,6 @@ let stop = p.now();
 let elapsed2 = stop - start;
 
 let elapsed_total = elapsed1 + elapsed2;
-let elapsed_total_secs = elapsed_total_as_secs_f64();
+let elapsed_total_secs = elapsed_total.as_secs_f64(&p);
 let hw_ticks = elapsed_total.ticks();
 ```
