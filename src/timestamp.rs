@@ -29,6 +29,13 @@ impl Add for Elapsed {
     }
 }
 
+impl AddAssign for Elapsed {
+    #[inline]
+    fn add_assign(&mut self, other: Elapsed) {
+        self.0 += other.0;
+    }
+}
+
 impl Elapsed {
     #[inline]
     pub fn new() -> Self {
