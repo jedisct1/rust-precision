@@ -2,7 +2,7 @@
 name = "precision"
 version = "0.1.5"
 authors = ["Frank Denis <github@pureftpd.org>"]
-categories = ["profiling", "development-tools"]
+categories = ["development-tools","development-tools::profiling"]
 license = "ISC"
 homepage = "https://github.com/jedisct1/rust-precision"
 repository = "https://github.com/jedisct1/rust-precision"
