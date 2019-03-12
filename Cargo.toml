@@ -7,12 +7,13 @@ license = "ISC"
 homepage = "https://github.com/jedisct1/rust-precision"
 repository = "https://github.com/jedisct1/rust-precision"
 description = "Low overhead, high precision measurement crate"
+edition = "2018"
 
 [dependencies]
 libc = "0.2"
 
 [build-dependencies]
-gcc = "0.3"
+cc = "1"
 rustc_version = "0.2"
 
 [profile.release]

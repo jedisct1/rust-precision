@@ -1,5 +1,4 @@
-extern crate gcc;
-extern crate rustc_version;
+use cc;
 
 use rustc_version::{version_meta, Channel};
 
@@ -13,7 +12,7 @@ fn main() {
     if using_nightly && asm_capable_target {
         println!("cargo:rustc-cfg=asm");
     } else {
-        gcc::Build::new()
+        cc::Build::new()
             .file("src/cpucounter.c")
             .flag_if_supported("-fomit-frame-pointer")
             .opt_level(3)

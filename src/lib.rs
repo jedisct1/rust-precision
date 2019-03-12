@@ -23,7 +23,6 @@
 //! let elapsed_total_secs = elapsed_total.as_secs_f64(&p);
 //! let hw_ticks = elapsed_total.ticks();
 //! ```
-extern crate libc;
 
 mod config;
 mod cpucounter;
