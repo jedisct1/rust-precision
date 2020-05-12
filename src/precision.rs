@@ -43,7 +43,7 @@ impl Precision {
 
     #[cfg(any(target_os = "macos", target_os = "freebsd"))]
     fn guess_frequency_using_sysctl(name: &str) -> Result<u64, &'static str> {
-        use libc::{self, c_long, size_t};
+        use libc::{c_long, size_t};
         use std::ffi::CString;
         use std::mem;
         use std::ptr;

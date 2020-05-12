@@ -1,4 +1,6 @@
 use super::timestamp::*;
+#[cfg(asm)]
+use std::llvm_asm;
 
 pub(crate) struct CPUCounter;
 
@@ -6,7 +8,7 @@ pub(crate) struct CPUCounter;
 #[inline]
 unsafe fn cpucounter() -> u64 {
     let (low, high): (u64, u64);
-    asm!("rdtscp" :  "={eax}" (low), "={edx}" (high) : : "ecx");
+    llvm_asm!("rdtscp" :  "={eax}" (low), "={edx}" (high) : : "ecx");
     (high << 32) | low
 }
 

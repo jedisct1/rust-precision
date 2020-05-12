@@ -1,4 +1,4 @@
-#![cfg_attr(asm, feature(asm))]
+#![cfg_attr(asm, feature(llvm_asm))]
 
 //! Precision is a simple crate to perform measurements using hardware counters.
 //!
