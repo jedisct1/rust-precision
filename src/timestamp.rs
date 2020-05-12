@@ -6,7 +6,7 @@ use std::ops::*;
 pub struct Timestamp(pub(crate) u64);
 
 /// The difference between two timestamps.
-#[derive(Clone, Copy, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Copy, Default, Eq, PartialEq, Ord, PartialOrd)]
 pub struct Elapsed(u64);
 
 impl Sub for Timestamp {
@@ -42,7 +42,7 @@ impl Elapsed {
     /// Returns a nul duration
     #[inline]
     pub fn new() -> Self {
-        Elapsed(0)
+        Elapsed::default()
     }
 
     /// Builds a `Duration` from a number of ticks
