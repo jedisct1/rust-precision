@@ -10,14 +10,15 @@ unsafe fn cpucounter() -> u64 {
     (high << 32) | low
 }
 
-
 // https://github.com/google/benchmark/blob/v1.1.0/src/cycleclock.h#L116
 #[cfg(asm)]
 #[inline]
 #[cfg(any(target_arch = "aarch64"))]
 unsafe fn cpucounter() -> u64 {
     let (vtm): (u64);
-    asm!("mrs %0, cntvct_el0" : "=r"(vtm));
+    //asm!("mrs %0, cntvct_el0" : "=r"(vtm));
+    //asm!("mrs %0, cntvct_el0", out(reg) vtm);
+    asm!("mrs {}, cntvct_el0", out(reg) vtm);
     vtm
 }
 
