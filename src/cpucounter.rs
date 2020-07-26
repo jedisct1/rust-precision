@@ -1,6 +1,4 @@
 use super::timestamp::*;
-#[cfg(asm)]
-use std::llvm_asm;
 
 pub(crate) struct CPUCounter;
 

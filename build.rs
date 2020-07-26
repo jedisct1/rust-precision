@@ -2,11 +2,11 @@ use rustc_version::{version_meta, Channel};
 
 fn main() {
     let using_nightly = version_meta().unwrap().channel == Channel::Nightly;
-    let asm_capable_target = cfg!(not(any(
-        all(target_os = "nacl", target_arch = "le32"),
-        target_arch = "asmjs",
-        target_arch = "wasm32"
-    )));
+    let asm_capable_target = cfg!(any(
+        target_arch = "x86",
+        target_arch = "x86_64",
+        target_arch = "aarch64",
+    ));
     if using_nightly && asm_capable_target {
         println!("cargo:rustc-cfg=asm");
     } else {
