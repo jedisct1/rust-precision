@@ -8,7 +8,7 @@ pub(crate) struct CPUCounter;
 #[inline]
 unsafe fn cpucounter() -> u64 {
     let (low, high): (u64, u64);
-    llvm_asm!("rdtscp" :  "={eax}" (low), "={edx}" (high) : : "ecx");
+    asm!("rdtscp", out("eax") low, out("edx") high, out("ecx") _);
     (high << 32) | low
 }
 
