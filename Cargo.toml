@@ -14,7 +14,7 @@ libc = "0.2"
 
 [build-dependencies]
 cc = "1"
-rustc_version = "0.3"
+rustc_version = "0.4"
 
 [profile.release]
 lto = true
