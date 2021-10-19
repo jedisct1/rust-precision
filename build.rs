@@ -1,6 +1,8 @@
+#[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
 use rustc_version::{version_meta, Channel};
 
-fn main() {
+#[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
+fn asm_detect() {
     let using_nightly = version_meta().unwrap().channel == Channel::Nightly;
     let asm_capable_target = cfg!(any(
         target_arch = "x86",
@@ -16,4 +18,9 @@ fn main() {
             .opt_level(3)
             .compile("cpucounter");
     }
+}
+
+fn main() {
+    #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
+    asm_detect();
 }

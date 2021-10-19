@@ -1,3 +1,9 @@
+#[cfg(all(
+    any(target_arch = "wasm32", target_arch = "wasm64"),
+    target_os = "unknown"
+))]
+use wasm_bindgen::prelude::*;
+
 use super::timestamp::*;
 
 pub(crate) struct CPUCounter;
@@ -20,14 +26,44 @@ unsafe fn cpucounter() -> u64 {
     vtm
 }
 
-#[cfg(not(asm))]
+#[cfg(all(not(asm), not(any(target_arch = "wasm32", target_arch = "wasm64"))))]
 extern "C" {
     fn cpucounter() -> u64;
+}
+
+#[cfg(target_os = "wasi")]
+#[inline]
+fn cpucounter() -> u64 {
+    use wasi::{clock_time_get, CLOCKID_MONOTONIC, CLOCKID_REALTIME};
+    unsafe { clock_time_get(CLOCKID_MONOTONIC, 0) }
+        .or_else(|_| unsafe { clock_time_get(CLOCKID_REALTIME, 0) })
+        .expect("Clock not available")
+}
+
+#[cfg(all(
+    any(target_arch = "wasm32", target_arch = "wasm64"),
+    target_os = "unknown"
+))]
+#[wasm_bindgen]
+extern "C" {
+    type performance;
+
+    #[wasm_bindgen(static_method_of = performance)]
+    pub fn now() -> f64;
+}
+
+#[cfg(all(
+    any(target_arch = "wasm32", target_arch = "wasm64"),
+    target_os = "unknown"
+))]
+fn cpucounter() -> u64 {
+    (performance::now() * 1_000_000.0) as u64
 }
 
 impl CPUCounter {
     #[inline]
     pub fn current() -> Timestamp {
+        #[allow(unused_unsafe)]
         Timestamp(unsafe { cpucounter() })
     }
 }

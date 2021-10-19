@@ -1,7 +1,9 @@
 use super::config::*;
 use super::cpucounter::*;
 use super::timestamp::*;
+#[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
 use std::thread;
+#[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
 use std::time::Duration;
 
 #[derive(Clone)]
@@ -36,7 +38,24 @@ impl Precision {
             .or_else(|_| Self::guess_frequency_with_wall_clock(config.setup_duration))
     }
 
-    #[cfg(not(any(target_os = "macos", target_os = "freebsd")))]
+    #[cfg(target_os = "wasi")]
+    fn guess_frequency(_config: &Config) -> Result<u64, &'static str> {
+        Ok(1_000_000_000)
+    }
+
+    #[cfg(all(
+        any(target_arch = "wasm32", target_arch = "wasm64"),
+        target_os = "unknown"
+    ))]
+    fn guess_frequency(_config: &Config) -> Result<u64, &'static str> {
+        Ok(1_000_000_000)
+    }
+
+    #[cfg(not(any(
+        target_os = "macos",
+        target_os = "freebsd",
+        any(target_arch = "wasm32", target_arch = "wasm64")
+    )))]
     fn guess_frequency(config: &Config) -> Result<u64, &'static str> {
         Self::guess_frequency_with_wall_clock(config.setup_duration)
     }
@@ -68,6 +87,7 @@ impl Precision {
         Ok(result as u64)
     }
 
+    #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
     fn guess_frequency_with_wall_clock(setup_duration: Duration) -> Result<u64, &'static str> {
         let start = CPUCounter::current();
         thread::sleep(setup_duration);

@@ -43,7 +43,7 @@ fn test_simple() {
     thread::sleep(Duration::from_secs(2));
     let stop = p.now();
     let elapsed = stop - start;
-    assert!(elapsed.as_secs_f64(&p) > 1.0 && elapsed.as_secs_f64(&p) < 4.0);
+    assert!(elapsed.as_secs_f64(&p) > 1.0 && elapsed.as_secs_f64(&p) < 40.0);
 
     let start = p.now();
     let stop = p.now();
