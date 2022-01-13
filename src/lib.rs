@@ -1,3 +1,4 @@
+#![allow(stable_features)]
 #![cfg_attr(asm, feature(asm))]
 
 //! Precision is a simple crate to perform measurements using hardware counters.
