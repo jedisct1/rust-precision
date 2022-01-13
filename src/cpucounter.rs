@@ -21,7 +21,7 @@ unsafe fn cpucounter() -> u64 {
 #[inline]
 #[cfg(any(target_arch = "aarch64"))]
 unsafe fn cpucounter() -> u64 {
-    let (vtm): (u64);
+    let vtm: u64;
     asm!("mrs {}, cntvct_el0", out(reg) vtm);
     vtm
 }
