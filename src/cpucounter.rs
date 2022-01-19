@@ -1,4 +1,5 @@
 #[cfg(asm)]
+#[allow(unused_imports)]
 use core::arch::asm;
 
 #[cfg(all(
