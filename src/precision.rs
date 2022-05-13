@@ -1,10 +1,11 @@
-use super::config::*;
-use super::cpucounter::*;
-use super::timestamp::*;
 #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
 use std::thread;
 #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
 use std::time::Duration;
+
+use super::config::*;
+use super::cpucounter::*;
+use super::timestamp::*;
 
 #[derive(Clone)]
 pub struct Precision {
@@ -62,10 +63,11 @@ impl Precision {
 
     #[cfg(any(target_os = "macos", target_os = "freebsd"))]
     fn guess_frequency_using_sysctl(name: &str) -> Result<u64, &'static str> {
-        use libc::{c_long, size_t};
         use std::ffi::CString;
         use std::mem;
         use std::ptr;
+
+        use libc::{c_long, size_t};
 
         let sysctl_name = CString::new(name).map_err(|_| "invalid sysctl name")?;
         let mut result: c_long = 0;

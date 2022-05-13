@@ -1,5 +1,6 @@
-use super::precision::*;
 use std::ops::*;
+
+use super::precision::*;
 
 /// A timestamp. Note that this is an opaque structure.
 #[derive(Clone, Copy, Eq, PartialEq)]
