@@ -9,7 +9,7 @@ use super::timestamp::*;
 
 #[derive(Clone)]
 pub struct Precision {
-    pub(crate) frequency: u64,
+    pub(crate) frequency: Option<u64>,
 }
 
 impl Precision {
@@ -17,7 +17,11 @@ impl Precision {
     /// perform calibration before returning. You may want to do this
     /// only twice. The `Precision` value can then be cloned if needed.
     pub fn new(config: Config) -> Result<Self, &'static str> {
-        let frequency = Precision::guess_frequency(&config)?;
+        let frequency = if config.wall_time {
+            Some(Precision::guess_frequency(&config)?)
+        } else {
+            None
+        };
         Ok(Precision { frequency })
     }
 
@@ -28,7 +32,7 @@ impl Precision {
     }
 
     #[cfg(target_os = "macos")]
-    fn guess_frequency(config: &Config) -> Result<u64, &'static str> {
+    fn guess_frequency(config: &Config) -> Result<Option<u64>, &'static str> {
         Self::guess_frequency_using_sysctl("machdep.tsc.frequency")
             .or_else(|_| Self::guess_frequency_with_wall_clock(config.setup_duration))
     }
