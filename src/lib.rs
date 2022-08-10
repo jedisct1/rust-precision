@@ -52,3 +52,21 @@ fn test_simple() {
     assert_eq!(elapsed.as_secs(&p), 0);
     assert!(elapsed.ticks() > 0);
 }
+
+#[test]
+fn test_no_wall_time() {
+    use std::thread;
+    use std::time::Duration;
+
+    let p = Precision::new(Config::default().wall_time(false)).unwrap();
+
+    let start = p.now();
+    thread::sleep(Duration::from_millis(1));
+    let stop = p.now();
+
+    let elapsed = stop - start;
+    assert!(elapsed.ticks() > 0);
+
+    let result = std::panic::catch_unwind(|| elapsed.as_millis(&p));
+    assert!(result.is_err());
+}

@@ -59,26 +59,57 @@ impl Elapsed {
     }
 
     /// Returns the duration as a number of seconds
+    ///
+    /// # Panics
+    ///
+    /// Panics if the given `Precision` was not configured to measure wall time.
     #[inline]
     pub fn as_secs(&self, precision: &Precision) -> u64 {
-        self.0 / precision.frequency
+        self.0
+            / precision
+                .frequency
+                .expect("`Precision` must have been configured to measure wall time")
     }
 
     /// Returns the duration as a number of seconds (floating-point)
+    ///
+    /// # Panics
+    ///
+    /// Panics if the given `Precision` was not configured to measure wall time.
     #[inline]
     pub fn as_secs_f64(&self, precision: &Precision) -> f64 {
-        self.0 as f64 / precision.frequency as f64
+        self.0 as f64
+            / precision
+                .frequency
+                .expect("`Precision` must have been configured to measure wall time")
+                as f64
     }
 
     /// Returns the duration as milliseconds
+    ///
+    /// # Panics
+    ///
+    /// Panics if the given `Precision` was not configured to measure wall time.
     #[inline]
     pub fn as_millis(&self, precision: &Precision) -> u64 {
-        self.0 * 1_000 / precision.frequency
+        self.0 * 1_000
+            / precision
+                .frequency
+                .expect("`Precision` must have been configured to measure wall time")
     }
 
     /// Returns the duration as nanoseconds
+    ///
+    /// # Panics
+    ///
+    /// Panics if the given `Precision` was not configured to measure wall time.
     #[inline]
     pub fn as_ns(&self, precision: &Precision) -> u64 {
-        (((self.0 as f64 * 1_000.0) / precision.frequency as f64) * 1_000_000.0) as u64
+        (((self.0 as f64 * 1_000.0)
+            / precision
+                .frequency
+                .expect("`Precision` must have been configured to measure wall time")
+                as f64)
+            * 1_000_000.0) as u64
     }
 }
