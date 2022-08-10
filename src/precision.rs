@@ -95,6 +95,7 @@ impl Precision {
 
     #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
     fn guess_frequency_with_wall_clock(setup_duration: Duration) -> Result<u64, &'static str> {
+        let setup_duration = std::cmp::max(Duration::from_secs(1), setup_duration);
         let start = CPUCounter::current();
         thread::sleep(setup_duration);
         let stop = CPUCounter::current();
