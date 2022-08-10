@@ -32,7 +32,7 @@ impl Precision {
     }
 
     #[cfg(target_os = "macos")]
-    fn guess_frequency(config: &Config) -> Result<Option<u64>, &'static str> {
+    fn guess_frequency(config: &Config) -> Result<u64, &'static str> {
         Self::guess_frequency_using_sysctl("machdep.tsc.frequency")
             .or_else(|_| Self::guess_frequency_with_wall_clock(config.setup_duration))
     }
