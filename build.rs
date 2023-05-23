@@ -22,5 +22,12 @@ fn asm_detect() {
 
 fn main() {
     #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
-    asm_detect();
+    {
+        let target_arch = std::env::var("CARGO_CFG_TARGET_ARCH");
+        match target_arch {
+            Err(_) => {}
+            Ok(ref arch) if arch == "wasm32" || arch == "wasm64" => {}
+            Ok(_) => asm_detect(),
+        }
+    }
 }
