@@ -34,6 +34,10 @@ pub use self::config::*;
 pub use self::precision::*;
 pub use self::timestamp::*;
 
+#[cfg(not(all(
+    any(target_arch = "wasm32", target_arch = "wasm64"),
+    target_os = "unknown"
+)))]
 #[test]
 fn test_simple() {
     use std::thread;
@@ -48,6 +52,10 @@ fn test_simple() {
     assert!(elapsed.ticks() > 0);
 }
 
+#[cfg(not(all(
+    any(target_arch = "wasm32", target_arch = "wasm64"),
+    target_os = "unknown"
+)))]
 #[test]
 fn test_no_wall_time() {
     use std::thread;
