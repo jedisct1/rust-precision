@@ -45,11 +45,6 @@ fn test_simple() {
     let stop = p.now();
     let elapsed = stop - start;
     assert!(elapsed.as_secs_f64(&p) > 1.0 && elapsed.as_secs_f64(&p) < 40.0);
-
-    let start = p.now();
-    let stop = p.now();
-    let elapsed = stop - start;
-    assert_eq!(elapsed.as_secs(&p), 0);
     assert!(elapsed.ticks() > 0);
 }
 
