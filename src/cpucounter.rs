@@ -50,6 +50,7 @@ fn cpucounter() -> u64 {
 ))]
 #[wasm_bindgen]
 extern "C" {
+    #[allow(non_camel_case_types)]
     type performance;
 
     #[wasm_bindgen(static_method_of = performance)]
