@@ -43,7 +43,7 @@ impl Precision {
             .or_else(|_| Self::guess_frequency_with_wall_clock(config.setup_duration))
     }
 
-    #[cfg(target_os = "wasi")]
+    #[cfg(any(target_os = "wasi", target_os = "wasix"))]
     fn guess_frequency(_config: &Config) -> Result<u64, &'static str> {
         Ok(1_000_000_000)
     }

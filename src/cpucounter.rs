@@ -53,13 +53,22 @@ extern "C" {
     fn cpucounter() -> u64;
 }
 
-#[cfg(target_os = "wasi")]
+#[cfg(any(
+    target_os = "wasix",
+    all(target_os = "wasi", not(feature = "wasi-abi2"))
+))]
 #[inline]
 fn cpucounter() -> u64 {
-    use wasi::{clock_time_get, CLOCKID_MONOTONIC, CLOCKID_REALTIME};
-    unsafe { clock_time_get(CLOCKID_MONOTONIC, 0) }
-        .or_else(|_| unsafe { clock_time_get(CLOCKID_REALTIME, 0) })
+    use wasix::{clock_time_get, CLOCKID_MONOTONIC, CLOCKID_REALTIME};
+    unsafe { clock_time_get(CLOCKID_MONOTONIC, 1_000_000) }
+        .or_else(|_| unsafe { clock_time_get(CLOCKID_REALTIME, 1_000_000) })
         .expect("Clock not available")
+}
+
+#[cfg(all(target_os = "wasi", feature = "wasi-abi2"))]
+fn cpucounter() -> u64 {
+    let nsec = wasi_abi2::clocks::monotonic_clock::now();
+    nsec
 }
 
 #[cfg(all(
