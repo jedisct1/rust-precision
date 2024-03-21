@@ -18,4 +18,12 @@ uint64_t cpucounter(void)
                          : "=r"(virtual_timer_value));
     return virtual_timer_value;
 }
+#elif defined(__riscv)
+uint64_t cpucounter(void)
+{
+    uint64_t time;
+    __asm__ __volatile__("rdtime %0"
+                         : "=r"(time));
+    return time;
+}
 #endif
