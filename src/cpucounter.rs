@@ -39,6 +39,15 @@ unsafe fn cpucounter() -> u64 {
     vtm
 }
 
+#[cfg(asm)]
+#[inline]
+#[cfg(target_arch = "riscv64")]
+unsafe fn cpucounter() -> u64 {
+    let time: u64;
+    asm!("rdtime {}", out(reg) time);
+    time
+}
+
 #[cfg(all(not(asm), not(any(target_arch = "wasm32", target_arch = "wasm64"))))]
 extern "C" {
     fn cpucounter() -> u64;
