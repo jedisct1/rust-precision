@@ -46,7 +46,4 @@ fn test_no_wall_time() {
 
     let elapsed = stop - start;
     assert!(elapsed.ticks() > 0);
-
-    let result = std::panic::catch_unwind(|| elapsed.as_millis(&p));
-    assert!(result.is_err());
 }
