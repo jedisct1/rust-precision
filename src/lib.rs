@@ -1,5 +1,4 @@
 #![doc = include_str!("../README.md")]
-
 #![allow(stable_features)]
 #![cfg_attr(asm, feature(asm))]
 

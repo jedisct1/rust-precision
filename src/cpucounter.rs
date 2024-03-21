@@ -14,7 +14,7 @@ pub(crate) struct CPUCounter;
 
 #[cfg(asm)]
 #[inline]
-#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+#[cfg(target_arch = "x86_64")]
 unsafe fn cpucounter() -> u64 {
     let (low, high): (u64, u64);
     asm!("rdtscp", out("eax") low, out("edx") high, out("ecx") _);
@@ -23,7 +23,16 @@ unsafe fn cpucounter() -> u64 {
 
 #[cfg(asm)]
 #[inline]
-#[cfg(any(target_arch = "aarch64"))]
+#[cfg(target_arch = "x86")]
+unsafe fn cpucounter() -> u64 {
+    let (low, high): (u32, u32);
+    asm!("rdtscp", out("eax") low, out("edx") high, out("ecx") _);
+    ((high as u64) << 32) | (low as u64)
+}
+
+#[cfg(asm)]
+#[inline]
+#[cfg(target_arch = "aarch64")]
 unsafe fn cpucounter() -> u64 {
     let vtm: u64;
     asm!("mrs {}, cntvct_el0", out(reg) vtm);
