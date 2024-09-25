@@ -32,3 +32,6 @@ wasi-abi2 = ["dep:wasi-abi2"]
 lto = true
 panic = "abort"
 opt-level = 3
+
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
