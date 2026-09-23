@@ -8,6 +8,7 @@ homepage = "https://github.com/jedisct1/rust-precision"
 repository = "https://github.com/jedisct1/rust-precision"
 description = "Low overhead, high precision measurement crate"
 edition = "2018"
+include = ["/LICENSE", "/README.md", "/build.rs", "/src/*.rs", "/src/*.c"]
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))'.dependencies]
 libc = "0.2"
