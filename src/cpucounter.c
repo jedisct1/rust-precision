@@ -10,6 +10,16 @@ uint64_t cpucounter(void)
                          : "%ecx");
     return (high << 32) | low;
 }
+#elif defined(__i386__)
+uint64_t cpucounter(void)
+{
+    uint32_t low, high;
+    __asm__ __volatile__("rdtscp"
+                         : "=a"(low), "=d"(high)
+                         :
+                         : "%ecx");
+    return ((uint64_t) high << 32) | low;
+}
 #elif defined(__aarch64__)
 uint64_t cpucounter(void)
 {

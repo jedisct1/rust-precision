@@ -1,7 +1,7 @@
 #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
 use std::thread;
 #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use super::config::*;
 use super::cpucounter::*;
@@ -96,10 +96,38 @@ impl Precision {
     #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
     fn guess_frequency_with_wall_clock(setup_duration: Duration) -> Result<u64, &'static str> {
         let setup_duration = std::cmp::max(Duration::from_secs(1), setup_duration);
+        let wall_start = Instant::now();
         let start = CPUCounter::current();
         thread::sleep(setup_duration);
         let stop = CPUCounter::current();
+        let wall_elapsed = wall_start.elapsed();
         let elapsed = stop - start;
-        Ok(elapsed.ticks() / setup_duration.as_secs())
+        let frequency = (elapsed.ticks() as u128 * 1_000_000_000) / wall_elapsed.as_nanos();
+        if frequency == 0 || frequency > u64::MAX as u128 {
+            return Err("invalid hardware counter frequency");
+        }
+        Ok(frequency as u64)
+    }
+}
+
+#[cfg(all(test, not(any(target_arch = "wasm32", target_arch = "wasm64"))))]
+mod tests {
+    use super::*;
+    use std::time::Instant;
+
+    #[test]
+    fn calibration_accounts_for_fractional_seconds() {
+        let frequency =
+            Precision::guess_frequency_with_wall_clock(Duration::from_millis(1_500)).unwrap();
+        let precision = Precision {
+            frequency: Some(frequency),
+        };
+        let wall_start = Instant::now();
+        let start = precision.now();
+        thread::sleep(Duration::from_millis(200));
+        let elapsed = precision.now() - start;
+        let wall_elapsed = wall_start.elapsed().as_secs_f64();
+        let ratio = elapsed.as_secs_f64(&precision) / wall_elapsed;
+        assert!((0.8..1.2).contains(&ratio), "measured/wall time: {}", ratio);
     }
 }
