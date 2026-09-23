@@ -28,6 +28,13 @@ uint64_t cpucounter(void)
                          : "=r"(virtual_timer_value));
     return virtual_timer_value;
 }
+#elif defined(__s390x__)
+uint64_t cpucounter(void)
+{
+    uint64_t clock;
+    __asm__ __volatile__("stckf %0" : "=Q"(clock) : : "cc");
+    return clock;
+}
 #elif defined(__riscv)
 uint64_t cpucounter(void)
 {

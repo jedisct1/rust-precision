@@ -2,14 +2,9 @@
 use rustc_version::{version_meta, Channel};
 
 #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
-fn asm_detect() {
+fn asm_detect(target_arch: &str) {
     let using_nightly = version_meta().unwrap().channel == Channel::Nightly;
-    let asm_capable_target = cfg!(any(
-        target_arch = "x86",
-        target_arch = "x86_64",
-        target_arch = "aarch64",
-        target_arch = "riscv64",
-    ));
+    let asm_capable_target = matches!(target_arch, "x86" | "x86_64" | "aarch64" | "riscv64");
     if using_nightly && asm_capable_target {
         println!("cargo:rustc-cfg=asm");
     } else {
@@ -28,7 +23,7 @@ fn main() {
         match target_arch {
             Err(_) => {}
             Ok(ref arch) if arch == "wasm32" || arch == "wasm64" => {}
-            Ok(_) => asm_detect(),
+            Ok(ref arch) => asm_detect(arch),
         }
     }
 }
