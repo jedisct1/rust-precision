@@ -1,11 +1,7 @@
 #[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
-use rustc_version::{version_meta, Channel};
-
-#[cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))]
 fn asm_detect(target_arch: &str) {
-    let using_nightly = version_meta().unwrap().channel == Channel::Nightly;
     let asm_capable_target = matches!(target_arch, "x86" | "x86_64" | "aarch64" | "riscv64");
-    if using_nightly && asm_capable_target {
+    if asm_capable_target {
         println!("cargo:rustc-cfg=asm");
     } else {
         cc::Build::new()

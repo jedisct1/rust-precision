@@ -4,6 +4,8 @@ Precision is a simple crate to perform measurements using hardware counters.
 
 It is especially useful for performing micro-benchmarks.
 
+On x86, x86-64, AArch64, and RISC-V 64, the crate uses Rust inline assembly on stable Rust.
+
 On s390x Linux, measurements use the hardware time-of-day counter.
 Wall-time measurements use the calibration duration set by `Config::setup_duration`.
 Cross-compiling for `s390x-unknown-linux-gnu` requires a C cross-compiler, such as `s390x-linux-gnu-gcc`, in addition to the Rust target.
