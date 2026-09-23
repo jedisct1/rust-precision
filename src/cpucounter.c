@@ -28,6 +28,11 @@ uint64_t cpucounter(void)
                          : "=r"(virtual_timer_value));
     return virtual_timer_value;
 }
+#elif defined(__powerpc__)
+uint64_t cpucounter(void)
+{
+    return __builtin_ppc_get_timebase();
+}
 #elif defined(__s390x__)
 uint64_t cpucounter(void)
 {
