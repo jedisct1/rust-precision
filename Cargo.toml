@@ -6,7 +6,8 @@ categories = ["development-tools", "development-tools::profiling"]
 license = "ISC"
 homepage = "https://github.com/jedisct1/rust-precision"
 repository = "https://github.com/jedisct1/rust-precision"
-description = "Low overhead, high precision measurement crate"
+description = "High-resolution timing and hardware counter measurements for benchmarking and profiling"
+keywords = ["timing", "benchmark", "profiling", "timer", "hardware-counters"]
 edition = "2018"
 include = ["/LICENSE", "/README.md", "/build.rs", "/src/*.rs", "/src/*.c"]
 
